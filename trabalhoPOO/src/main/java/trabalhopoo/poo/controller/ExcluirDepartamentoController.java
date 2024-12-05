@@ -1,10 +1,9 @@
 package trabalhopoo.poo.controller;
 
+import trabalhopoo.poo.utils.AlertaUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import trabalhopoo.poo.dao.DepartamentoDAO;
@@ -18,21 +17,22 @@ public class ExcluirDepartamentoController {
 
     @FXML
     private void btnExcluirOnAction(ActionEvent event) {
-        int idDepartamento = Integer.parseInt(txtIdDepartamento.getText());
-        DepartamentoDAO departamentoDAO = new DepartamentoDAO(); // Ajuste os parâmetros conforme necessário
+        // Verifica se o campo ID está vazio
+        if (txtIdDepartamento.getText().isEmpty()) {
+            AlertaUtils.mostrarErro("Erro", "O campo ID do departamento não pode estar vazio.", null);
+            return; // Interrompe a execução se o campo estiver vazio
+        }
 
         try {
+            int idDepartamento = Integer.parseInt(txtIdDepartamento.getText());
+            DepartamentoDAO departamentoDAO = new DepartamentoDAO();
             departamentoDAO.excluir(idDepartamento);
-            Alert alert = new Alert(AlertType.INFORMATION, "Departamento excluído com sucesso!", ButtonType.OK);
-            alert.setTitle("Sucesso");
-            alert.setHeaderText(null);
-            alert.showAndWait();
+            AlertaUtils.mostrarInformacao("Sucesso", "Departamento excluído com sucesso!");
+        } catch (NumberFormatException e) {
+            // Exibe um alerta se o ID não for um número válido
+            AlertaUtils.mostrarErro("Erro", "O ID do departamento deve ser um número válido.", e);
         } catch (SQLException e) {
-            Alert alert = new Alert(AlertType.ERROR, "Erro ao excluir departamento!", ButtonType.OK);
-            alert.setTitle("Erro");
-            alert.setHeaderText(null);
-            alert.showAndWait();
-            e.printStackTrace();
+            AlertaUtils.mostrarErro("Erro", "Erro ao excluir departamento!", e);
         }
     }
 

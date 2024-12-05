@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
@@ -37,46 +38,62 @@ public class MenusController {
     @FXML
     private MenuItem menuDepartamentoListar;  // Menu para listar departamentos
 
+    @FXML
+    private MenuItem menuRelatorio; // Adicionado para o relatório
 
 
 
     @FXML
-    void incluiFuncionarioOnAction(ActionEvent event) {
+    public void relatorioOnAction(ActionEvent event) {
+        abrirTela("/trabalhopoo/poo/view/Relatorio.fxml", "Relatório de Departamentos e Funcionários");
+    }
+
+    @FXML
+    public void incluiFuncionarioOnAction(ActionEvent event) {
         abrirTela("/trabalhopoo/poo/view/IncluiFuncionario.fxml", "Incluir Funcionário");
+        mostrarNotificacao("Incluir Funcionário", "Tela de inclusão de funcionário aberta.");
     }
 
     @FXML
-    void alteraFuncionarioOnAction(ActionEvent event) {
+    public void alteraFuncionarioOnAction(ActionEvent event) {
         abrirTela("/trabalhopoo/poo/view/AlterarFuncionario.fxml", "Alterar Funcionário");
+        mostrarNotificacao("Alterar Funcionário", "Tela de alteração de funcionário aberta.");
     }
 
     @FXML
-    void listaFuncionarioOnAction(ActionEvent event) {
+    public void listaFuncionarioOnAction(ActionEvent event) {
         abrirTela("/trabalhopoo/poo/view/ListarFuncionarios.fxml", "Listar Funcionários");
+        mostrarNotificacao("Listar Funcionários", "Tela de listagem de funcionários aberta.");
     }
 
     @FXML
-    void incluiDepartamentoOnAction(ActionEvent event) {
+    public void incluiDepartamentoOnAction(ActionEvent event) {
         abrirTela("/trabalhopoo/poo/view/IncluiDepartamento.fxml", "Incluir Departamento");
+        mostrarNotificacao("Incluir Departamento", "Tela de inclusão de departamento aberta.");
     }
 
     @FXML
-    void alteraDepartamentoOnAction(ActionEvent event) {
+    public void alteraDepartamentoOnAction(ActionEvent event) {
         abrirTela("/trabalhopoo/poo/view/AlterarDepartamento.fxml", "Alterar Departamento");
+        mostrarNotificacao("Alterar Departamento", "Tela de alteração de departamento aberta.");
     }
 
     @FXML
-    void listaDepartamentoOnAction(ActionEvent event) {
+    public void listaDepartamentoOnAction(ActionEvent event) {
         abrirTela("/trabalhopoo/poo/view/ListarDepartamentos.fxml", "Listar Departamentos");
+        mostrarNotificacao("Listar Departamentos", "Tela de listagem de departamentos aberta.");
     }
 
     @FXML
     public void excluirFuncionarioOnAction(ActionEvent event) {
-        abrirTela("/trabalhopoo/poo/view/ExcluirFuncionario.fxml", "Excluir Funcionario");
+        abrirTela("/trabalhopoo/poo/view/ExcluirFuncionario.fxml", "Excluir Funcionário");
+        mostrarNotificacao("Excluir Funcionário", "Tela de exclusão de funcionário aberta.");
     }
 
+    @FXML
     public void excluirDepartamentoOnAction(ActionEvent event) {
         abrirTela("/trabalhopoo/poo/view/ExcluirDepartamento.fxml", "Excluir Departamento");
+        mostrarNotificacao("Excluir Departamento", "Tela de exclusão de departamento aberta.");
     }
 
     private void abrirTela(String fxml, String titulo) {
@@ -91,6 +108,15 @@ public class MenusController {
             newStage.show();
         } catch (IOException e) {
             e.printStackTrace();
+            mostrarNotificacao("Erro", "Não foi possível abrir a tela: " + e.getMessage());
         }
+    }
+
+    private void mostrarNotificacao(String titulo, String mensagem) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensagem);
+        alert.showAndWait();
     }
 }

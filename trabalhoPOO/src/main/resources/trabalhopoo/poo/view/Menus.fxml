@@ -16,21 +16,26 @@
                         <MenuItem fx:id="menuFuncionarioInclui" onAction="#incluiFuncionarioOnAction" text="Incluir" />
                         <MenuItem fx:id="menuFuncionarioAltera" onAction="#alteraFuncionarioOnAction" text="Alterar" />
                         <MenuItem fx:id="menuFuncionarioLista" onAction="#listaFuncionarioOnAction" text="Listar" />
-                        <MenuItem fx:id="menuFuncionarioExcluir" onAction="#excluirFuncionarioOnAction" text="Excluir" /> <!-- Botão de Excluir -->
+                        <MenuItem fx:id="menuFuncionarioExcluir" onAction="#excluirFuncionarioOnAction" text="Excluir" />
                     </items>
                 </Menu>
                 <Menu text="Departamento">
                     <items>
                         <MenuItem fx:id="menuDepartamentoInclui" onAction="#incluiDepartamentoOnAction" text="Incluir" />
                         <MenuItem fx:id="menuDepartamentoLista" onAction="#listaDepartamentoOnAction" text="Listar" />
-                        <MenuItem fx:id="menuDepartamentoExcluir" onAction="#excluirDepartamentoOnAction" text="Excluir" /> <!-- Botão de Excluir -->
+                        <MenuItem fx:id="menuDepartamentoExcluir" onAction="#excluirDepartamentoOnAction" text="Excluir" />
+                    </items>
+                </Menu>
+                <Menu text="Relatório"> <!-- Novo menu para relatórios -->
+                    <items>
+                        <MenuItem fx:id="menuRelatorio" onAction="#relatorioOnAction" text="Ver Relatório" />
                     </items>
                 </Menu>
             </menus>
         </MenuBar>
         <ImageView fitHeight="374.0" fitWidth="600.0">
             <image>
-                <Image url="@../image/img1.jpg" /> <!-- Altere para o caminho correto da imagem -->
+                <Image url="@../image/img1.jpg" />
             </image>
         </ImageView>
     </children>

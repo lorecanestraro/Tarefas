@@ -1,58 +1,61 @@
 package trabalhopoo.poo.controller;
 
-import javafx.scene.Node;
-import trabalhopoo.poo.dao.Conexao;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
+import javafx.scene.Node;
 import trabalhopoo.poo.dao.FuncionarioDAO;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 
 public class ExcluirFuncionarioController {
 
     @FXML
-    private TextField txtIdFuncionario; // Campo para o ID do funcionário
+    private TextField txtIdFuncionario;
 
-    @FXML
-    public void initialize() {
-        // Inicializar qualquer lógica se necessário
+    private final FuncionarioDAO funcionarioDAO;
+
+    public ExcluirFuncionarioController() {
+        this.funcionarioDAO = new FuncionarioDAO();
+    }
+
+    public ExcluirFuncionarioController(FuncionarioDAO funcionarioDAO) {
+        this.funcionarioDAO = funcionarioDAO;
     }
 
     @FXML
     private void btnExcluirOnAction(ActionEvent event) {
-        // Obtendo o ID do funcionário a partir do campo de texto
-        int funcionarioId = Integer.parseInt(txtIdFuncionario.getText());
+        if (txtIdFuncionario.getText().isEmpty()) {
+            mostrarAlerta(AlertType.WARNING, "O campo ID do Funcionário não pode estar vazio.");
+            return;
+        }
 
-        FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
         try {
-            // Chama o método excluir da classe FuncionarioDAO
+            int funcionarioId = Integer.parseInt(txtIdFuncionario.getText());
             funcionarioDAO.excluir(funcionarioId);
-
-            // Exibir uma mensagem de sucesso
-            Alert alert = new Alert(AlertType.INFORMATION, "Funcionário excluído com sucesso!", ButtonType.OK);
-            alert.setTitle("Sucesso");
-            alert.setHeaderText(null);
-            alert.showAndWait();
+            mostrarAlerta(AlertType.INFORMATION, "Funcionário excluído com sucesso!");
         } catch (SQLException e) {
-            // Exibir uma mensagem de erro
-            Alert alert = new Alert(AlertType.ERROR, "Erro ao excluir funcionário!", ButtonType.OK);
-            alert.setTitle("Erro");
-            alert.setHeaderText(null);
-            alert.showAndWait();
-            e.printStackTrace();
+            mostrarAlerta(AlertType.ERROR, "Erro ao excluir funcionário: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            mostrarAlerta(AlertType.WARNING, "ID do Funcionário deve ser um número válido.");
         }
     }
 
     @FXML
     void btnVoltarOnAction(ActionEvent event) {
-        // Fecha a tela atual
+        fecharJanela(event);
+    }
+
+    private void mostrarAlerta(AlertType tipo, String mensagem) {
+        Alert alert = new Alert(tipo, mensagem);
+        alert.setHeaderText(null);
+        alert.showAndWait();
+    }
+
+    private void fecharJanela(ActionEvent event) {
         Stage stageAtual = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stageAtual.close();
     }

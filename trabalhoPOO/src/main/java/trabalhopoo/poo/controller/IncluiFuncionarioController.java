@@ -47,16 +47,31 @@ public class IncluiFuncionarioController {
 
     @FXML
     private void btnConfirmaFuncOnAction(ActionEvent event) {
+        // Obtém o nome do campo de texto
+        String nome = txtNomeFunc.getText().trim();  // Removendo espaços em branco ao redor
+
+        // Verifica se o nome está vazio
+        if (nome.isEmpty()) {
+            // Exibe uma mensagem de erro se o nome não foi preenchido
+            Alert alert = new Alert(Alert.AlertType.ERROR, "O nome do funcionário não pode estar vazio.");
+            alert.show();
+            return;  // Interrompe a execução do método para não continuar com o cadastro
+        }
+
+        // Cria o objeto funcionário e define o nome
         Funcionario funcionario = new Funcionario();
-        funcionario.setNome(txtNomeFunc.getText());
+        funcionario.setNome(nome);
         funcionario.setDepartamento(comboDepartamento.getValue());
 
+        // Tenta inserir o funcionário no banco de dados
         FuncionarioDAO funcDAO = new FuncionarioDAO();
         try {
             funcDAO.inserir(funcionario);
+            // Exibe uma mensagem de sucesso
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Funcionário cadastrado com sucesso!");
             alert.show();
         } catch (SQLException e) {
+            // Exibe uma mensagem de erro caso ocorra uma falha no banco de dados
             Alert alert = new Alert(Alert.AlertType.ERROR, "Erro ao cadastrar funcionário.");
             alert.show();
             e.printStackTrace();
@@ -69,5 +84,4 @@ public class IncluiFuncionarioController {
         Stage stageAtual = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stageAtual.close();
     }
-
 }
